@@ -15,16 +15,35 @@ export class Transaction {
 
     private readonly allowedUnits: string[] = ['kg', 'g'];
 
-    constructor(public type: TransactionType, public product: string, public amount: number, public unit: string, public price: number) {
-        if (this.amount < 0) {
-            throw new Error('Invalid amount supplied. Amount for purchase or sale must be positive');
+    constructor(public type: TransactionType, public product: string, public amount: number, public unit: string, public currency: string, public price: number) {
+        this.validateTransactionData();
+    }
+
+    private validateTransactionData() {
+
+        if (this.type === null || this.type === undefined) {
+            throw new Error('No type supplied. Transaction type is required');
+        }
+        if (!this.product) {
+            throw new Error('No product supplied. Product name is required');
         }
 
-        // TODO: Check if negative price is allowed
+        if (this.currency === null || this.currency === undefined) {
+            throw new Error('No currencty supplied. Currency is required');
+        }
+
+        if (!this.amount || this.amount < 0) {
+            throw new Error('Invalid amount supplied. Amount must be declared and its value must be positive');
+        }
 
         this.unit = this.unit.toLocaleLowerCase();
         if (!this.allowedUnits.includes(this.unit)) {
             throw new Error(`Invalid unit supplied. ${this.unit} is not a valid unit.`);
+        }
+
+        // TODO: Check if negative price is allowed
+        if (this.price === null || this.price === undefined) {
+            throw new Error(`Invalid price supplied. Price is required.`);
         }
     }
 }
