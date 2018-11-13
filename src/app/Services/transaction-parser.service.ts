@@ -30,13 +30,8 @@ export class TransactionParserService {
       price: firstLine.indexOf('price'),
     };
     if (delimiters.productName > 0 && delimiters.amount > 0 && delimiters.price > 0) {
-    // The first line contains column names, so remove it from the parse data
-    transactionsData = transactionsData.slice(1);
-    // Check if second line is delimeter line (=============...) and remove it from the data set
-    if (this.stringIsEmptyOrWhitespace(transactionsData[0].replace('=', ''))) {
-      // After replacing all '=' signs, we are left with an empty or whitespace string, so remove this from the data set
-      transactionsData = transactionsData.slice(1);
-    }
+    // The first line contains column names, so remove it and the second line (delimiter line) from the parse data
+    transactionsData = transactionsData.slice(2);
     // Creates an anonymous function which will include delimiter data when passing data to actual parser function.
     parseFunction = (data) => this.parseStringDelimitedTransactionData(data, delimiters);
     }
@@ -48,7 +43,7 @@ export class TransactionParserService {
         parsedTransactions.push(parseFunction(data));
       } catch (error) {
         // In a production app, this would go to an actual logging service
-        console.warn('Warning. Skipping transaction which was unable to be parsed. Data: ', data);
+        console.warn('Warning. Skipping transaction which was unable to be parsed. Data: ' + data, error);
       }
     });
 
@@ -64,7 +59,6 @@ export class TransactionParserService {
   }
 
   private parseStringDelimitedTransactionData(transactionData: string, delimiters): Transaction {
-    debugger;
     // Check for whitespace only or empty data
     if (this.stringIsEmptyOrWhitespace(transactionData)) {
      throw new Error('Parse failure, data is empty');
@@ -81,7 +75,7 @@ export class TransactionParserService {
       throw new Error('Parse failure, product type is not valid.');
     }
 
-    const productName = transactionData.substr(delimiters.productName, delimiters.amount - delimiters.productName).trim();
+    const productName = transactionData.substr(delimiters.productName, delimiters.amount - delimiters.productName).trim().toLowerCase();
 
     if (this.stringIsEmptyOrWhitespace(productName)) {
       throw new Error('Parse failure, product name is empty or whitespace.');

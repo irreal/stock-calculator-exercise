@@ -4,12 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { TransactionParserService } from './Services/transaction-parser.service';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [TransactionParserService],
   bootstrap: [AppComponent]
