@@ -23,7 +23,7 @@
         <thead>
           <tr>
             <th>Product name</th>
-            <th>Amount in stock</th>
+            <th>Amount in stock (KG)</th>
             <th>Total Balance</th>
           </tr>
         </thead>
@@ -31,6 +31,11 @@
           <td>{{total.productName}}</td>
           <td>{{(total.amountInStockInGrams / 1000).toFixed(2)}} KG</td>
           <td [ngClass]="{'text-danger': total.balanceInCents < 0, 'text-success': total.balanceInCents >= 0 }">{{total.currency}}{{(total.balanceInCents / 100).toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total balance:</td>
+          <td>{{getTotalBalance()}}</td>
         </tr>
       </table>
     </div>

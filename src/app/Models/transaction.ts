@@ -15,9 +15,15 @@ export class Transaction {
 
     private readonly allowedUnits: string[] = ['kg', 'g'];
 
-    constructor(public type: TransactionType, public product: string, public amount: number, public unit: string, public currency: string, public price: number) {
+    constructor(
+        public type: TransactionType,
+        public product: string,
+        public amount: number,
+        public unit: string,
+        public currency: string,
+        public price: number) {
         this.validateTransactionData();
-    }
+        }
 
     private validateTransactionData() {
 
