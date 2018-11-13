@@ -12,6 +12,7 @@ import { TransactionType } from './Models/transaction-type.enum';
 export class AppComponent {
 
   public sourceUrl = 'https://c-test-01.glitch.me/data.txt';
+  public loading = false;
   public totals: Total[] = [];
 
 
@@ -19,6 +20,7 @@ export class AppComponent {
   }
 
   public parseData() {
+    this.loading = true;
     this.httpClient.get(this.sourceUrl, { responseType: 'text' }).subscribe(data => {
 
       const lines = data.match(/[^\r\n]+/g);
@@ -48,7 +50,7 @@ export class AppComponent {
     });
 
     this.totals = totals;
-    });
+    }, (error) => {console.log('error loading data: ', error); }, () => {this.loading = false; });
   }
 
 }

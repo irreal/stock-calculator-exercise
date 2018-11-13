@@ -14,7 +14,7 @@
       <input class="source-url" type="text" [(value)]="sourceUrl" placeholder="url to source data" />
     </div>
     <div class="col">
-      <button (click)="parseData()">Parse data</button>
+      <button [disabled]="loading" (click)="parseData()">{{loading ? "Loading..." : "Process data"}}</button>
     </div>
   </div>
   <div class="row">
@@ -30,7 +30,7 @@
         <tr *ngFor="let total of totals">
           <td>{{total.productName}}</td>
           <td>{{(total.amountInStockInGrams / 1000).toFixed(2)}} KG</td>
-          <td>{{total.currency}}{{(total.balanceInCents / 100).toFixed(2)}}</td>
+          <td [ngClass]="{'text-danger': total.balanceInCents < 0, 'text-success': total.balanceInCents >= 0 }">{{total.currency}}{{(total.balanceInCents / 100).toFixed(2)}}</td>
         </tr>
       </table>
     </div>
