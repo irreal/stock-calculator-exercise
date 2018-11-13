@@ -9,7 +9,7 @@ describe('TransactionParserService', () => {
     const service: TransactionParserService = TestBed.get(TransactionParserService);
     expect(service).toBeTruthy();
   });
-  it('should parse transactions', () => {
+  it('should parse valid transactions', () => {
     const service: TransactionParserService = TestBed.get(TransactionParserService);
 
     const data = [
@@ -31,5 +31,21 @@ describe('TransactionParserService', () => {
     ];
 
     expect(service.ParseTransactions(data).length).toEqual(13);
+  });
+
+  it('should skip invalid transactions', () => {
+    const service: TransactionParserService = TestBed.get(TransactionParserService);
+
+    const data = [
+      '  Product name                  Amount         Price (per kg)',
+      '==================================================================',
+      'T Pear                          18036 g        15.48$',
+      'S                               339  g         $19.26',
+      'P Apple (red)                   g              $6',
+      'P banana                        17188g         $',
+      'S Pear                          asd g          $21.8',
+      'S Pear                          278g           asd $',
+    ];
+    expect(service.ParseTransactions(data).length).toEqual(0);
   });
 });
