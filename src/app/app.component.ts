@@ -12,7 +12,7 @@ import { TransactionType } from './Models/transaction-type.enum';
 export class AppComponent {
 
   public sourceUrl = 'https://c-test-01.glitch.me/data.txt';
-  public totals: Total[];
+  public totals: Total[] = [];
 
 
   constructor(private httpClient: HttpClient, private transactionParser: TransactionParserService) {
@@ -32,13 +32,13 @@ export class AppComponent {
           productTotals[t.product] =  new Total(
             t.product,
             t.type === TransactionType.Purchase ? t.AmountInGrams : -t.AmountInGrams,
-            t.type === TransactionType.Purchase ? -t.PriceInCents : t.PriceInCents,
+            t.type === TransactionType.Purchase ? -t.PriceInCents * (t.AmountInGrams / 1000) : t.PriceInCents * (t.AmountInGrams / 1000),
             t.currency
             );
           return;
       }
 
-      total.balanceInCents += t.type === TransactionType.Purchase ? -t.PriceInCents : t.PriceInCents;
+      total.balanceInCents += t.type === TransactionType.Purchase ? -t.PriceInCents * (t.AmountInGrams / 1000) : t.PriceInCents * (t.AmountInGrams / 1000);
       total.amountInStockInGrams += t.type === TransactionType.Purchase ? t.AmountInGrams : -t.AmountInGrams;
     });
 
