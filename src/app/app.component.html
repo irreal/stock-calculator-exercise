@@ -1,23 +1,38 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to Stock Calculator.
-  </h1>
+<div class="container-fluid">
+  <div class="row">
+    <h1>
+      Welcome to Stock Calculator.
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h2>Specify a link for source data: </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <input class="source-url" type="text" [(value)]="sourceUrl" placeholder="url to source data" />
+    </div>
+    <div class="col">
+      <button (click)="parseData()">Parse data</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-bordred table-striped" *ngIf="totals && totals.length > 0">
+        <thead>
+          <tr>
+            <th>Product name</th>
+            <th>Amount in stock</th>
+            <th>Total Balance</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let total of totals">
+          <td>{{total.productName}}</td>
+          <td>{{(total.amountInStockInGrams / 1000).toFixed(2)}} KG</td>
+          <td>{{total.currency}}{{(total.balanceInCents / 100).toFixed(2)}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
-<h2>Specify a link for source data: </h2>
-<input type="text" [(value)]="sourceUrl" placeholder="url to source data" />
-<button (click)="parseData()">Parse data</button>
-<table *ngIf="totals && totals.length > 0">
-  <thead>
-    <tr>
-      <th>Product name</th>
-      <th>Amount in stock</th>
-      <th>Total Balance</th>
-    </tr>
-  </thead>
-  <tr *ngFor="let total of totals">
-    <td>{{total.productName}}</td>
-    <td>{{(total.amountInStockInGrams / 1000).toFixed(2)}} KG</td>
-    <td>{{total.currency}}{{(total.balanceInCents / 100).toFixed(2)}}</td>
-  </tr>
-</table>
