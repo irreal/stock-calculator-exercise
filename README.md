@@ -2,6 +2,10 @@
 
 This is an exercise project for practicing development. It is implemented in Angular (7.0.2)
 
+The program calculates ledgers for articles based on inputted transaction data.
+
+Please note that all amounts are rounded to two decimal points.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
